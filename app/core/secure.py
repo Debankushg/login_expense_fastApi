@@ -28,7 +28,8 @@ def get_current_user(request:Request,db:Session=Depends(get_db),credentials:HTTP
                 status_code=status.HTTP_401_UNAUTHORIZED
             )
         request.state.user=user
-    
+        return user
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

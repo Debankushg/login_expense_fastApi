@@ -1,6 +1,17 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, Field
+
+
+class ExpenseUserDto(BaseModel):
+    id: int
+    username: str
+    email: str
+
+    model_config = {
+        "from_attributes": True
+    }
 
 
 class ExpenseRequestDto(BaseModel):
@@ -43,6 +54,7 @@ class ExpenseResponseDto(ExpenseRequestDto):
     )
 
     created_at: datetime
+    user: Optional[ExpenseUserDto] = None
 
     model_config = {
         "from_attributes": True

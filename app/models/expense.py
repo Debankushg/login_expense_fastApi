@@ -1,5 +1,5 @@
 from app.core.db import Base
-from sqlalchemy import Column, Integer, String, Boolean, DateTime,Float
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -13,3 +13,6 @@ class Expense(Base):
     show = Column(Boolean, default=True)
     amount = Column(Float, index=True ,nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow ,nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+
+    user = relationship("User")

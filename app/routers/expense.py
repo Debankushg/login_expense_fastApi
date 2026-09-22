@@ -8,6 +8,7 @@ from sqlalchemy import or_
 from typing import Optional
 from app.core.secure import get_current_user
 from app.models.user import User
+from sqlalchemy.orm import joinedload
 
 
 expense_router=APIRouter(
@@ -26,7 +27,8 @@ async def create_expense(
     new_expense=Expense(
         title=expense_request_dto.title,
         description=expense_request_dto.description,
-        amount=expense_request_dto.amount       
+        amount=expense_request_dto.amount,
+        user_id=user.id
     )
     db.add(new_expense)
     db.commit()
@@ -44,7 +46,7 @@ async def get_all_expenses(
     limit: int = 5,
     search: Optional[str] = None
 ):
-    query = db.query(Expense)
+    query = db.query(Expense).options(joinedload(Expense.user))
 
     # Search
     if search:
